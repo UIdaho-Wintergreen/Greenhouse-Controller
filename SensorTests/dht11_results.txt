@@ -1,0 +1,1 @@
+Temp=24.0*C   Humidity=26.0%Temp=24.0*C   Humidity=26.0%Temp=24.0*C   Humidity=26.0%Temp=24.0*C   Humidity=24.0%Temp=24.0*C   Humidity=26.0%Temp=24.0*C   Humidity=26.0%Temp=24.0*C   Humidity=26.0%Temp=24.0*C   Humidity=26.0%Temp=24.0*C   Humidity=26.0%Temp=24.0*C   Humidity=26.0%Temp=24.0*C   Humidity=26.0%
