@@ -1,0 +1,7 @@
+The links below will be useful in setting up the various libraries and sensors.
+
+For overall setup for CircuitPython libraries (Blinka):
+https://learn.adafruit.com/circuitpython-on-raspberrypi-linux/installing-circuitpython-on-raspberry-pi 
+
+For a basic introduction to Github for the Pi:
+https://geektechstuff.com/2019/09/09/introduction-to-github-raspberry-pi/
