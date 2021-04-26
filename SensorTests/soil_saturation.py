@@ -21,7 +21,7 @@ mcp = MCP.MCP3008(spi, cs)
 
 # Create single-ended input on channel 0
 chan = AnalogIn(mcp, MCP.P0)
-
+	
 with open("cap_config.json") as json_data_file:
 	config_data = json.load(json_data_file)
 # print(json.dumps(config_data))
@@ -35,9 +35,9 @@ if __name__ == '__main__':
 			L = "SOIL SENSOR: " + "{:>5}%\t{:>5.3f}".format(percent_translation(chan.value), chan.voltage)
 			print(L)
 			soilFile.write(L)
-	except Exception as error:
-		raise error
-	except KeyboardInterrupt:
-		print('exiting script')
-		soilFile.close()
-	time.sleep(1)
+		except Exception as error:
+			raise error
+		except KeyboardInterrupt:
+			print('exiting script')
+			soilFile.close()
+		time.sleep(1)
