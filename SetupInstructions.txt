@@ -5,3 +5,8 @@ https://learn.adafruit.com/circuitpython-on-raspberrypi-linux/installing-circuit
 
 For a basic introduction to Github for the Pi:
 https://geektechstuff.com/2019/09/09/introduction-to-github-raspberry-pi/
+
+For setting a basic Apache2 server, PHP, and MySQL:
+https://projects.raspberrypi.org/en/projects/lamp-web-server-with-wordpress/2 
+
+In the case that the pi screams at you that you are missing a library, try importing whatever is in the code.
