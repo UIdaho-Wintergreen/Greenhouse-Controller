@@ -11,6 +11,7 @@ https://projects.raspberrypi.org/en/projects/lamp-web-server-with-wordpress/2
 
 For using a python MySQL connector:
 https://www.a2hosting.com/kb/developer-corner/mysql/connecting-to-mysql-using-python
+I suggest sudo apt-get install python3-pymysql
 
 In the case that the pi screams at you that you are missing a library, try importing whatever is in the code.
 
