@@ -1,8 +1,9 @@
+#!/usr/bin/env python3
 import json
 import time
 import datetime
 import glob
-import MySQLdb
+import pymysql
 from time import strftime
 import Adafruit_DHT
 import board
@@ -28,7 +29,7 @@ mcp = MCP.MCP3008(spi, cs)
 chan = AnalogIn(mcp, MCP.P0)
 
 # Variables for MySQL
-db = MySQLdb.connect(host="localhost", user="root",passwd="WinterGreen", db="sensor_database")
+db = pymysql.connect(host="localhost", user="root",passwd="WinterGreen", db="sensor_database")
 cur = db.cursor()
  
 def percent_translation(raw_val, zero_sat, full_sat):
