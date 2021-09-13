@@ -1,15 +1,15 @@
 {
-	"temp_sensors": [
+	"temp_sensors":[
 		{
 			"type":"dht11",
 			"pin":4
 		}
-	]
+	],
 	"relays":[
 		{
 			"pin":21 
 		}
-	]
+	],
 	"soil_sensors":[
 		{
 			"full_saturation":35008, 
