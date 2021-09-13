@@ -9,4 +9,16 @@ https://geektechstuff.com/2019/09/09/introduction-to-github-raspberry-pi/
 For setting a basic Apache2 server, PHP, and MySQL:
 https://projects.raspberrypi.org/en/projects/lamp-web-server-with-wordpress/2 
 
+For using a python MySQL connector:
+https://www.a2hosting.com/kb/developer-corner/mysql/connecting-to-mysql-using-python
+
 In the case that the pi screams at you that you are missing a library, try importing whatever is in the code.
+
+
+___________________________________________________
+
+Troubleshooting tips:
+  - Allow access to localhost database with: 
+    GRANT ALL ON root.* TO 'root'@'localhost' IDENTIFIED BY 'ENTER_PASSWORD_HERE'; 
+    FLUSH PRIVILEGES;
+  - 
