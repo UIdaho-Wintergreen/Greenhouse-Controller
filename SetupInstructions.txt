@@ -8,6 +8,7 @@ https://geektechstuff.com/2019/09/09/introduction-to-github-raspberry-pi/
 
 For setting a basic Apache2 server, PHP, and MySQL:
 https://projects.raspberrypi.org/en/projects/lamp-web-server-with-wordpress/2 
+https://wingoodharry.wordpress.com/2015/01/05/raspberry-pi-temperature-sensor-web-server-part-2-setting-up-and-writing-to-a-mysql-database/
 
 For using a python MySQL connector:
 https://www.a2hosting.com/kb/developer-corner/mysql/connecting-to-mysql-using-python
