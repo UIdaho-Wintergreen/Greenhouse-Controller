@@ -3,11 +3,12 @@
 import smtplib 
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import os #For environment variables.
 
-email = "Your Email"
-pas = "Your Pass"
+email = os.environ.get('SMS_Email')
+pas = os.environ.get('SMS_Password')
 
-sms_gateway = 'number@tmomail.net'
+sms_gateway = '2085158976@tmomail.net' #Change the number here to your own.
 # The server we use to send emails in our case it will be gmail but every email provider has a different smtp 
 # and port is also provided by the email provider.
 smtp = "smtp.gmail.com" 
