@@ -5,6 +5,9 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os #For environment variables.
 
+# If your email uses 2-step verification, an app password should be used.
+# https://support.google.com/accounts/answer/185833?p=InvalidSecondFactor&visit_id=637678745617100032-1453695746&rd=1
+
 email = os.environ.get('SMS_Email')
 pas = os.environ.get('SMS_Password')
 
