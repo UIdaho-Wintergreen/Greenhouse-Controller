@@ -27,7 +27,9 @@
 		{
 			"email_address":,
 			"email_password":,
-			"phone_number":
+			"phone_number":,
+			"email_provider":,
+			"phone_provider":
 		}
 	]
 }
