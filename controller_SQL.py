@@ -11,6 +11,10 @@ import busio
 import digitalio
 import adafruit_mcp3xxx.mcp3008 as MCP
 from adafruit_mcp3xxx.analog_in import AnalogIn
+import smtplib 
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import os #For environment variables.
 
 with open('config_sensors.json') as json_file:
     data = json.load(json_file)
@@ -31,10 +35,42 @@ chan = AnalogIn(mcp, MCP.P0)
 # Variables for MySQL
 db = pymysql.connect(host="localhost", user="root",passwd="WinterGreen", db="sensor_database")
 cur = db.cursor()
+
+# For SMS alarm
+for e in data["sms_details"]:
+	email = e["email_address"]
+	pas = e["email_password"]
+	sms_gateway = e["phone_number"]+'@tmomail.net' #Change the number here to your own.
+# The server we use to send emails in our case it will be gmail but every email provider has a different smtp 
+# and port is also provided by the email provider.
+smtp = "smtp.gmail.com" 
+port = 587
  
 def percent_translation(raw_val, zero_sat, full_sat):
 	per_val = abs((raw_val-zero_sat)/(full_sat-zero_sat))*100
 	return round(per_val, 3)
+
+def send_alarm(message):
+	# This will start our email server
+	server = smtplib.SMTP(smtp,port)
+	# Starting the server
+	server.starttls()
+	# Now we need to login
+	server.login(email,pas)
+	# Now we use the MIME module to structure our message.
+	msg = MIMEMultipart()
+	msg['From'] = email
+	msg['To'] = sms_gateway
+	# Make sure you add a new line in the subject
+	msg['Subject'] = "WinterGreen Alarm: \n"
+	# Make sure you also add new lines to your body
+	body = message
+	# and then attach that body furthermore you can also send html content.
+	msg.attach(MIMEText(body, 'plain'))
+	sms = msg.as_string()
+	server.sendmail(email,sms_gateway,sms)
+	# lastly quit the server
+	server.quit()
 
 while True:
     
