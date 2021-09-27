@@ -54,7 +54,7 @@ while response!=3:
         
         # Get temp sensors.
         for t in data["temp_sensors"]:
-            print("Temperature sensor "+str(i)+"\n")
+            print("Temperature sensor "+str(i)+":")
             if (t["type"]=="dht11"):
                 humidity, temp = Adafruit_DHT.read_retry(sensor_dht11, t["pin"])
                 while humidity is None and temp is None:    
@@ -67,7 +67,7 @@ while response!=3:
         i=0
         # Get soil sat sensors.            
         for s in data["soil_sensors"]:
-            print("Temperature sensor "+str(i)+"\n")
+            print("\nSoil sensor "+str(i)+":")
             soil_sat = percent_translation(chan.value, s["zero_saturation"], s["full_saturation"])
             L = "SOIL SENSOR: " + "{:>5}%\t{:>5.3f}".format(soil_sat, chan.voltage)
             print(L)
@@ -77,9 +77,9 @@ while response!=3:
         i=1
         print("Which relay would you like to turn on/ off?")
         for r in data["relays"]:
-            print("%d. Relay on pin %d", i, r["pin"])
+            print(str(i)+" Relay on pin "+str(r["pin"]))
             i=i+1
-        r1_relay=(int)(input("Which relay would you like to choose? Just choose one relay."))
+        r1_relay=(int)(input("Which relay would you like to choose? Just choose one relay. "))
         if (r1_relay<i):
             i=1
             rpin=0
@@ -92,10 +92,10 @@ while response!=3:
             r2_relay=(int)(input("Type 1 to turn on, 0 to turn off."))
             if r2_relay==1:
                 GPIO.output(rpin, GPIO.HIGH)
-                print("Relay on pin %d is on.", rpin)
+                print("Relay on pin "+str(rpin)+" is on.")
             elif r2_relay==0:
                 GPIO.output(rpin, GPIO.LOW)
-                print("Relay on pin %d is off.", rpin)
+		print("Relay on pin "+str(rpin)+" is off.")
             else:
                 print("Invalid number.")
         else:
