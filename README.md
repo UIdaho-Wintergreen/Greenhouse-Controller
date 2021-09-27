@@ -5,6 +5,9 @@ Instructions:
 1. Install necessary libraries and branch code.
 2. Edit JSON file config_sensors.json. 
 
+Despite what it seems, controller_manual.py is used for combined testing of sensors and relays.
+It is not the most recent, nor will it be the final version used.
+
 Right now, the most "complete" (but in-progress) version is controller_SQL.py, which involves the use of a database.
 To set up the database, the current settings are...
   - MySQL database flavor: mariadb
