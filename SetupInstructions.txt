@@ -16,6 +16,17 @@ I suggest sudo apt-get install python3-pymysql
 
 In the case that the pi screams at you that you are missing a library, try importing whatever is in the code.
 
+___________________________________________________
+
+Basic instructions after downloading code and libraries: 
+
+1. Edit config_sensors.json to fit your sensors/ details.
+  - "temp_sensors": This section is for temperature sensors.
+    - "type": Currently only supports DHT11.
+  - "relays": This section is for relay information.
+  - "soil_sensors": This section is for soil sensors.
+    - Prior to setting up everything, calibrate soil sensor to get saturation levels.  
+  - "sms_details": This section is for activating alarms.
 
 ___________________________________________________
 
