@@ -28,8 +28,8 @@
 			"email_address":,
 			"email_password":,
 			"phone_number":,
-			"email_provider":,
-			"phone_provider":
+			"email_provider":"gmail",
+			"phone_provider":"tmobile"
 		}
 	]
 }
