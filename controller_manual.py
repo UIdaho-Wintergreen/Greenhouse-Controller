@@ -31,7 +31,7 @@ chan = AnalogIn(mcp, MCP.P0)
 GPIO.setmode(GPIO.BCM)
 for r in data["relays"]:
     GPIO.setup(r["pin"], GPIO.OUT) 
-#GPIO.cleanup() #Do we need it?
+#GPIO.cleanup() #Do we need it? hmm
  
 def percent_translation(raw_val, zero_sat, full_sat):
 	per_val = abs((raw_val-zero_sat)/(full_sat-zero_sat))*100
