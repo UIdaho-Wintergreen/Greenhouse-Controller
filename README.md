@@ -5,6 +5,11 @@ Instructions:
 1. Install necessary libraries and branch code.
 2. Edit JSON file config_sensors.json. 
 
+Directory explanations: 
+
+The SensorTests directory contains scripts for individual sensors and functionality.
+All of it is combined in controller_SQL.py, controller_manual.py (for sensors, relays at least).
+
 Despite what it seems, controller_manual.py is used for combined testing of sensors and relays.
 It is not the most recent, nor will it be the final version used.
 
