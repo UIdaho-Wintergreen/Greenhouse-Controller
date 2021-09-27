@@ -22,7 +22,7 @@
 			"lower_threshold":22,
 			"alarm_when_OOB":2
 		}
-	]
+	],
 	"sms_details":[
 		{
 			"email_address":,
