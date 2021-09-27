@@ -92,10 +92,9 @@ while response!=3:
             r2_relay=(int)(input("Type 1 to turn on, 0 to turn off."))
             if r2_relay==1:
                 GPIO.output(rpin, GPIO.HIGH)
-                print("Relay on pin "+str(rpin)+" is on.")
+                #print("Relay on pin "+str(rpin)+" is on.")
             elif r2_relay==0:
                 GPIO.output(rpin, GPIO.LOW)
-		print("Relay on pin "+str(rpin)+" is off.")
             else:
                 print("Invalid number.")
         else:
