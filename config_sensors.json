@@ -25,9 +25,9 @@
 	],
 	"sms_details":[
 		{
-			"email_address":,
-			"email_password":,
-			"phone_number":,
+			"email_address":"",
+			"email_password":"",
+			"phone_number":"",
 			"email_provider":"gmail",
 			"phone_provider":"tmobile"
 		}
