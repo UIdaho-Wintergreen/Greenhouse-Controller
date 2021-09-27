@@ -31,7 +31,7 @@ chan = AnalogIn(mcp, MCP.P0)
 GPIO.setmode(GPIO.BCM)
 for r in data["relays"]:
     GPIO.setup(r["pin"], GPIO.OUT) 
-GPIO.cleanup()
+#GPIO.cleanup()
  
 def percent_translation(raw_val, zero_sat, full_sat):
 	per_val = abs((raw_val-zero_sat)/(full_sat-zero_sat))*100
@@ -39,13 +39,12 @@ def percent_translation(raw_val, zero_sat, full_sat):
 
 response=0
 while response!=3:
-    
     print("Choose the following options: ")
     print("1. Check sensor values.")
     print("2. Turn on/ off relays.")
     print("3. Quit.")
     
-    response=(int)(input("What would you like to do?"))
+    response=(int)(input("What would you like to do? "))
     
     if response==1:         
         i=0
@@ -55,7 +54,7 @@ while response!=3:
         
         # Get temp sensors.
         for t in data["temp_sensors"]:
-            print("Temperature sensor %d :", i)
+            print("Temperature sensor "+i+"\n")
             if (t["type"]=="dht11"):
                 humidity, temp = Adafruit_DHT.read_retry(sensor_dht11, t["pin"])
                 while humidity is None and temp is None:    
@@ -68,7 +67,7 @@ while response!=3:
         i=0
         # Get soil sat sensors.            
         for s in data["soil_sensors"]:
-            print("Temperature sensor %d :", i)
+            print("Temperature sensor "+i+"\n")
             soil_sat = percent_translation(chan.value, s["zero_saturation"], s["full_saturation"])
             L = "SOIL SENSOR: " + "{:>5}%\t{:>5.3f}".format(soil_sat, chan.voltage)
             print(L)
