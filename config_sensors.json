@@ -23,4 +23,11 @@
 			"alarm_when_OOB":2
 		}
 	]
+	"sms_details":[
+		{
+			"email_address":,
+			"email_password":,
+			"phone_number":
+		}
+	]
 }
