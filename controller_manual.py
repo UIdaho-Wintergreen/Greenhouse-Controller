@@ -54,7 +54,7 @@ while response!=3:
         
         # Get temp sensors.
         for t in data["temp_sensors"]:
-            print("Temperature sensor "+i+"\n")
+            print("Temperature sensor "+str(i)+"\n")
             if (t["type"]=="dht11"):
                 humidity, temp = Adafruit_DHT.read_retry(sensor_dht11, t["pin"])
                 while humidity is None and temp is None:    
@@ -67,7 +67,7 @@ while response!=3:
         i=0
         # Get soil sat sensors.            
         for s in data["soil_sensors"]:
-            print("Temperature sensor "+i+"\n")
+            print("Temperature sensor "+str(i)+"\n")
             soil_sat = percent_translation(chan.value, s["zero_saturation"], s["full_saturation"])
             L = "SOIL SENSOR: " + "{:>5}%\t{:>5.3f}".format(soil_sat, chan.voltage)
             print(L)
@@ -100,7 +100,7 @@ while response!=3:
                 print("Invalid number.")
         else:
             print("Invalid number.")
-        GPIO.cleanup()
+        #GPIO.cleanup()
     elif response==3:
         break
     else:
