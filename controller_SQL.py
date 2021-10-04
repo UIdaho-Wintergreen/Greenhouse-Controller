@@ -35,14 +35,27 @@ chan = AnalogIn(mcp, MCP.P0)
 # Variables for MySQL
 db = pymysql.connect(host="localhost", user="root",passwd="WinterGreen", db="sensor_database")
 cur = db.cursor()
-
+    
 # For SMS alarm
 for e in data["sms_details"]:
-	email = e["email_address"]
-	pas = e["email_password"]
-	sms_gateway = e["phone_number"]+'@tmomail.net' #Change the number here to your own.
-# The server we use to send emails in our case it will be gmail but every email provider has a different smtp 
-# and port is also provided by the email provider.
+    email = e["email_address"]
+    pas = e["email_password"]
+    
+    if (e["phone_carrier"]).lower()=="at&t":
+        gateway="@txt.att.net"
+    elif (e["phone_carrier"]).lower()=="sprint":
+        gateway="@messaging.sprintpcs.com"
+    elif (e["phone_carrier"]).lower()=="tmobile":
+        gateway="@tmomail.net"  
+    elif (e["phone_carrier"]).lower()=="verizon":
+        gateway="@vtext.com"  
+    elif (e["phone_carrier"]).lower()=="cricket":
+        gateway="@sms.mycricket.com"  
+    elif (e["phone_carrier"]).lower()=="boostmobile":
+        gateway="@myboostmobile.com"  
+    
+    sms_gateway = e["phone_number"]+gateway 
+
 smtp = "smtp.gmail.com" 
 port = 587
  
@@ -92,7 +105,7 @@ while True:
         print(L)
         humidityList.append(humidity)
         tempList.append(temp)
-
+        
     # Get soil sat sensors.            
     for s in data["soil_sensors"]:
         soil_sat = percent_translation(chan.value, s["zero_saturation"], s["full_saturation"])
