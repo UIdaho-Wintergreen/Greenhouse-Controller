@@ -29,7 +29,7 @@
 			"email_password":"",
 			"phone_number":"",
 			"email_provider":"gmail",
-			"phone_provider":"tmobile"
+			"phone_carrier":"tmobile"
 		}
 	]
 }
