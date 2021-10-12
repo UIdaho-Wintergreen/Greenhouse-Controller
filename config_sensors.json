@@ -3,8 +3,10 @@
 		{
 			"type":"dht11",
 			"pin":4,
-			"upper_threshold":32,
-			"lower_threshold":0,
+			"temp_upper_threshold":32,
+			"temp_lower_threshold":0,
+			"humid_upper_threshold":32,
+			"humid_lower_threshold":0,
 			"alarm_when_OOB":2
 		}
 	],
