@@ -7,13 +7,8 @@
 			"temp_lower_threshold":0,
 			"humid_upper_threshold":32,
 			"humid_lower_threshold":0,
-			"alarm_when_OOB":2
-		}
-	],
-	"relays":[
-		{
-			"pin":21, 
-			"turn_on_condition":"none"
+			"alarm_when_OOB":2, 
+			"relay_pin":21
 		}
 	],
 	"soil_sensors":[
