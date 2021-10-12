@@ -15,9 +15,12 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import os #For environment variables.
+import shelve
 
 with open('config_sensors.json') as json_file:
-    data = json.load(json_file)
+    data = json.load(json_file) 
+    
+alarm_s = shelve.open("alarm_tracking.db",  flag="c", writeback=True)
  
 # For temp sensor.
 sensor = Adafruit_DHT.DHT11
@@ -59,6 +62,16 @@ for e in data["sms_details"]:
 smtp = "smtp.gmail.com" 
 port = 587
  
+# Takes in number to compare to upper-lower threshold, sound alarm when pass out of bounds limit.
+def check_threshold(num, up_thresh, low_thresh, oob_lim, key, key_name, spec):
+    if ((up_thresh<num) or (low_thresh>temp)):
+        if (key>=oob_lim):
+            send_alarm("Your sensor "+key_name+"'s "+spec+" has been out of bounds beyond the limit set.")
+        else:
+            return key+1
+    else: #Reset if solved.
+        return 0
+
 def percent_translation(raw_val, zero_sat, full_sat):
 	per_val = abs((raw_val-zero_sat)/(full_sat-zero_sat))*100
 	return round(per_val, 3)
@@ -97,21 +110,36 @@ while True:
     print(datetimeWrite)
     
     # Get temp sensors.
-    for t in data["temp_sensors"]:
+    for i, t in enumerate(data["temp_sensors"]):
+        
+        key_name = "tempsensor"+str(i)
+        if not (key_name in alarm_s.keys()):
+            alarm_s[key_name]={"temp": 0, "humid":0}
+        
         humidity, temp = Adafruit_DHT.read_retry(sensor, t["pin"])
         while humidity is None and temp is None:    
             humidity, temp = Adafruit_DHT.read_retry(sensor, t["pin"])
         L = "Temp={0:0.1f}*C   Humidity={1:0.1f}%".format(temp, humidity)
         print(L)
         humidityList.append(humidity)
-        tempList.append(temp)
+        tempList.append(temp) 
+        
+        # Check temp threshold.
+        alarm_s[key_name]["temp"] = check_threshold(temp, t["temp_upper_threshold"], t["temp_lower_threshold"], t["alarm_when_OOB"], alarm_s[key_name]["temp"], key_name, "temperature")
+        alarm_s[key_name]["humid"] = check_threshold(humidity, t["humid_upper_threshold"], t["humid_lower_threshold"], t["alarm_when_OOB"], alarm_s[key_name]["humid"], key_name, "humidity")
         
     # Get soil sat sensors.            
-    for s in data["soil_sensors"]:
+    for i, s in enumerate(data["soil_sensors"]):
+        
+        key_name = "soilsensor"+str(i)
+        if not (key_name in alarm_s.keys()):
+            alarm_s[key_name]=0
+        
         soil_sat = percent_translation(chan.value, s["zero_saturation"], s["full_saturation"])
         L = "SOIL SENSOR: " + "{:>5}%\t{:>5.3f}".format(soil_sat, chan.voltage)
         print(L)
         soilList.append(soil_sat)
+        alarm_s[key_name] = check_threshold(soil_sat, s["upper_threshold"], s["lower_threshold"], s["alarm_when_OOB"], alarm_s[key_name], key_name, "soil saturation")
     
     for h, t, s in zip(humidityList, tempList, soilList):
         sql = ("""INSERT INTO allSensorLog (datetime, sensornum, temperature, humidity, soilsaturation) VALUES (%s,%s,%s,%s,%s)""",(datetimeWrite, name, t, h, s))
@@ -129,5 +157,9 @@ while True:
             print("Failed writing to database")
  
     cur.close()
-    db.close()
+    db.close() 
+    alarm_s.close()
+    
+    send_alarm("Sensor data has been collected at "+datetimeWrite)
+    
     break
