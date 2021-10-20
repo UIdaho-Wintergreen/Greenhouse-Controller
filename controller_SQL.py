@@ -20,7 +20,7 @@ import shelve
 with open('config_sensors.json') as json_file:
     data = json.load(json_file) 
     
-alarm_s = shelve.open("alarm_tracking.db",  flag="c", writeback=True)
+alarm_s = shelve.open("alarm_tracking",  flag="c", writeback=True)
  
 # For temp sensor.
 sensor = Adafruit_DHT.DHT11
