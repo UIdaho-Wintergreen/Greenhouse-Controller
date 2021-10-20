@@ -11,13 +11,13 @@ cur = db.cursor()
 # Retrieve LAST data from database
 def getLastData():
     #for row in  
-    data = cur.execute("SELECT * FROM allSensorLog ORDER BY datetime DESC LIMIT 1")
+    cur.execute("SELECT * FROM allSensorLog ORDER BY datetime DESC LIMIT 1")
+    data = cur.fetchone()
     time = str(data[0]) 
     sensor_name = str(data[1])
     temp = data[2]
     hum = data[3]
     soil_sat = data[4] 
-	#conn.close()
     return time, sensor_name, temp, hum, soil_sat
 def getHistData (numSamples):
     cur.execute("SELECT * FROM allSensorLog ORDER BY timestamp DESC LIMIT "+str(numSamples))
