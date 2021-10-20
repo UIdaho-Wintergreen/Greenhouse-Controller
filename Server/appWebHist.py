@@ -20,7 +20,7 @@ def getLastData():
     soil_sat = data[4] 
     return time, sensor_name, temp, hum, soil_sat
 def getHistData (numSamples):
-    cur.execute("SELECT * FROM allSensorLog ORDER BY timestamp DESC LIMIT "+str(numSamples))
+    cur.execute("SELECT * FROM allSensorLog ORDER BY datetime DESC LIMIT "+str(numSamples))
     data = cur.fetchall()
     dates = []
     sensor_names = []
