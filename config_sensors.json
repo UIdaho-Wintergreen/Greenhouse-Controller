@@ -10,6 +10,11 @@
 			"alarm_when_OOB":2, 
 			"relay_pin":21
 		}
+	], 
+	"relays":[
+		{
+			"pin":21
+		}
 	],
 	"soil_sensors":[
 		{
