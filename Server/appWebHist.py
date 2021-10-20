@@ -35,9 +35,14 @@ def getHistData (numSamples):
         soil_sats.append(row[4])
         return dates, sensor_names, temps, hums, soil_sats
 def maxRowsTable():
+    cur.execute("select COUNT(*) from allSensorLog")
+    data = cur.fetchall() 
+    maxNumberRows = 0
+    for row in data: 
+        maxNumberRows = maxNumberRows + 1
 	#for row in cur.execute("select COUNT(temperature) from allSensorLog"):
 		#maxNumberRows=row[0]
-    maxNumberRows = cur.execute("select COUNT(*) from allSensorLog")
+    #maxNumberRows = cur.execute("select COUNT(*) from allSensorLog")
     return maxNumberRows
 # define and initialize global variables
 global numSamples
