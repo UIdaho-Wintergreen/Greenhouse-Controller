@@ -65,7 +65,7 @@ port = 587
 # Takes in number to compare to upper-lower threshold, sound alarm when pass out of bounds limit.
 def check_threshold(num, up_thresh, low_thresh, oob_lim, key, key_name, spec):
     if ((up_thresh<num) or (low_thresh>temp)):
-        if (int(key)>=oob_lim):
+        if (int(key or 0)>=oob_lim):
             send_alarm("Your sensor "+key_name+"'s "+spec+" has been out of bounds beyond the limit set.")
         else:
             return key+1
