@@ -160,6 +160,6 @@ while True:
     db.close() 
     alarm_s.close()
     
-    send_alarm("Sensor data has been collected at ",datetimeWrite)
+    send_alarm("Sensor data has been collected at "+datetimeWrite)
     
     break
