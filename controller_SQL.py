@@ -66,7 +66,7 @@ port = 587
 def check_threshold(num, up_thresh, low_thresh, oob_lim, key, key_name, spec):
     if ((up_thresh<num) or (low_thresh>temp)):
         if (int(key or 0)>=oob_lim):
-            send_alarm("Your sensor ", key_name,"'s ",spec," has been out of bounds beyond the limit.")
+            send_alarm("Your sensor "+key_name+"'s "+spec+" has been out of bounds beyond the limit.")
         else:
             return int(key or 0)+1
     else: #Reset if solved.
