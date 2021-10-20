@@ -1,5 +1,3 @@
-# https://www.hackster.io/mjrobot/from-data-to-graph-a-web-journey-with-flask-and-sqlite-4dba35
-
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import io
@@ -12,12 +10,13 @@ cur = db.cursor()
 
 # Retrieve LAST data from database
 def getLastData():
-    for row in cur.execute("SELECT * FROM allSensorLog ORDER BY datetime DESC LIMIT 1"):
-        time = str(row[0]) 
-        sensor_name = row[1]
-        temp = row[2]
-        hum = row[3]
-        soil_sat = row[4] 
+    #for row in  
+    data = cur.execute("SELECT * FROM allSensorLog ORDER BY datetime DESC LIMIT 1")
+    time = str(data[0]) 
+    sensor_name = str(data[1])
+    temp = data[2]
+    hum = data[3]
+    soil_sat = data[4] 
 	#conn.close()
     return time, sensor_name, temp, hum, soil_sat
 def getHistData (numSamples):
@@ -36,10 +35,10 @@ def getHistData (numSamples):
         soil_sats.append(row[4])
         return dates, sensor_names, temps, hums, soil_sats
 def maxRowsTable():
-	#for row in cur.execute("select COUNT(*) from allSensorLog"):
-	#	maxNumberRows=row[0]
-	maxNumberRows=cur.execute("select COUNT(*) from allSensorLog")
-	return maxNumberRows
+	#for row in cur.execute("select COUNT(temperature) from allSensorLog"):
+		#maxNumberRows=row[0]
+    maxNumberRows = cur.execute("select COUNT(*) from allSensorLog")
+    return maxNumberRows
 # define and initialize global variables
 global numSamples
 numSamples = maxRowsTable()
