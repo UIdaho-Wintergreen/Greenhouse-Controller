@@ -39,14 +39,14 @@ def getHistData (numSamples):
     return dates, sensor_names, temps, hums, soil_sats
 def maxRowsTable():
     cur = db.cursor() 
-    cur.execute("select COUNT(*) from allSensorLog")
-    data = cur.fetchall() 
-    maxNumberRows = 0
-    for row in data: 
-        maxNumberRows = maxNumberRows + 1
+    #cur.execute("SELECT COUNT(*) FROM allSensorLog")
+    #data = cur.fetchall() 
+    #maxNumberRows = 0
+    #for row in data: 
+        #maxNumberRows = maxNumberRows + 1
 	#for row in cur.execute("select COUNT(temperature) from allSensorLog"):
 		#maxNumberRows=row[0]
-    #maxNumberRows = cur.execute("select COUNT(*) from allSensorLog")
+    maxNumberRows = cur.execute("SELECT COUNT(*) FROM allSensorLog")
     cur.close()
     return maxNumberRows
 # define and initialize global variables
@@ -70,7 +70,7 @@ def index():
 @app.route('/', methods=['POST'])
 def my_form_post():
     #global numSamples, request.form['numSamples']
-    numSamples = int (request.form.get('numSamples'))
+    numSamples = int (request.form['numSamples'])
     numMaxSamples = maxRowsTable()
     if (numSamples > numMaxSamples):
         numSamples = (numMaxSamples-1)
