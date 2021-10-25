@@ -13,6 +13,7 @@
 	], 
 	"relays":[
 		{
+			"name":"relay 1",
 			"pin":21
 		}
 	],
