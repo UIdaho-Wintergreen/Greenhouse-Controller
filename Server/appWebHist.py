@@ -6,11 +6,11 @@ app = Flask(__name__)
 import pymysql 
 
 db = pymysql.connect(host="localhost", user="root",passwd="WinterGreen", db="sensor_database")
-cur = db.cursor() 
+#cur = db.cursor() 
 
 # Retrieve LAST data from database
 def getLastData():
-    #for row in  
+    cur = db.cursor() 
     cur.execute("SELECT * FROM allSensorLog ORDER BY datetime DESC LIMIT 1")
     data = cur.fetchone()
     time = str(data[0]) 
@@ -18,8 +18,10 @@ def getLastData():
     temp = data[2]
     hum = data[3]
     soil_sat = data[4] 
+    cur.close()
     return time, sensor_name, temp, hum, soil_sat
 def getHistData (numSamples):
+    cur = db.cursor() 
     cur.execute("SELECT * FROM allSensorLog ORDER BY datetime DESC LIMIT "+str(numSamples)) #"SELECT * FROM allSensorLog LIMIT "+str(numSamples)
     data = cur.fetchall()
     dates = []
@@ -33,8 +35,10 @@ def getHistData (numSamples):
         temps.append(row[2])
         hums.append(row[3])
         soil_sats.append(row[4])
-        return dates, sensor_names, temps, hums, soil_sats
+    cur.close()
+    return dates, sensor_names, temps, hums, soil_sats
 def maxRowsTable():
+    cur = db.cursor() 
     cur.execute("select COUNT(*) from allSensorLog")
     data = cur.fetchall() 
     maxNumberRows = 0
@@ -43,6 +47,7 @@ def maxRowsTable():
 	#for row in cur.execute("select COUNT(temperature) from allSensorLog"):
 		#maxNumberRows=row[0]
     #maxNumberRows = cur.execute("select COUNT(*) from allSensorLog")
+    cur.close()
     return maxNumberRows
 # define and initialize global variables
 #global numSamples
