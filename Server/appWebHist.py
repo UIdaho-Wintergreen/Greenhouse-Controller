@@ -67,7 +67,7 @@ def index():
         'numSamples' : numSamples
 	}
 	return render_template('index.html', **templateData)
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['GET', 'POST'])
 def my_form_post():
     #global numSamples
     numSamples = int (request.form['numSamples'])
