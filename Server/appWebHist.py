@@ -67,10 +67,10 @@ def index():
         'numSamples' : numSamples
 	}
 	return render_template('index.html', **templateData)
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['POST'])
 def my_form_post():
-    #global numSamples
-    numSamples = int (request.form['numSamples'])
+    #global numSamples, request.form['numSamples']
+    numSamples = int (request.form.get('numSamples'))
     numMaxSamples = maxRowsTable()
     if (numSamples > numMaxSamples):
         numSamples = (numMaxSamples-1)
