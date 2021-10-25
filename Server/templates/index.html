@@ -5,9 +5,10 @@
    </head>
    <body>
 	<h1> Sensor Data </h1>
-	<h3> TEMPERATURE  =>  {{ temp  }} oC</h3>
-	<h3> HUMIDITY =>  {{ hum  }} %</h3> 
-   <h3> SOIL SATURATION =>  {{ soil_sat  }} %</h3>
+	<h2> Latest data for sensor {{ sensor_name }}: </h2>
+	<h3> TEMPERATURE =  {{ temp  }} oC</h3>
+	<h3> HUMIDITY = {{ hum  }} %</h3> 
+   <h3> SOIL SATURATION = {{ soil_sat  }} %</h3>
 	<hr>	
 	<h3> Last Sensors Reading: {{ time }} ==> <a href="/"class="button">REFRESH</a></h3>	
 	<hr>
