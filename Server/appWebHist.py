@@ -39,21 +39,22 @@ def getHistData (numSamples):
     return dates, sensor_names, temps, hums, soil_sats
 def maxRowsTable():
     cur = db.cursor() 
-    #cur.execute("SELECT COUNT(*) FROM allSensorLog")
-    #data = cur.fetchall() 
+    cur.execute("SELECT COUNT(*) FROM allSensorLog")
+    data = cur.fetchone()  
+    maxNumberRows = data[0]
     #maxNumberRows = 0
     #for row in data: 
         #maxNumberRows = maxNumberRows + 1
 	#for row in cur.execute("select COUNT(temperature) from allSensorLog"):
 		#maxNumberRows=row[0]
-    maxNumberRows = cur.execute("SELECT COUNT(*) FROM allSensorLog")
+    #maxNumberRows = cur.execute("SELECT COUNT(*) FROM allSensorLog")
     cur.close()
     return maxNumberRows
 # define and initialize global variables
 #global numSamples
-numSamples = 5 #maxRowsTable()
-#if (numSamples > 101):
-#    numSamples = 100
+numSamples = maxRowsTable()
+if (numSamples > 101):
+    numSamples = 100
 # main route
 @app.route("/")
 def index():
@@ -61,7 +62,7 @@ def index():
 	templateData = {   
         'time' : time, 
         'sensor_name' : sensor_name,
-		'temp' : temp,
+        'temp' : temp,
         'hum' : hum, 
         'soil_sat' : soil_sat, 
         'numSamples' : numSamples
@@ -86,21 +87,21 @@ def my_form_post():
     return render_template('index.html', **templateData)
 @app.route('/plot/temp')
 def plot_temp():
-	times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
-	ys = temps
-	fig = Figure()
-	axis = fig.add_subplot(1, 1, 1)
-	axis.set_title("Temperature [°C]")
-	axis.set_xlabel("Samples")
-	axis.grid(True)
-	xs = range(numSamples)
-	axis.plot(xs, ys)
-	canvas = FigureCanvas(fig)
-	output = io.BytesIO()
-	canvas.print_png(output)
-	response = make_response(output.getvalue())
-	response.mimetype = 'image/png'
-	return response
+    times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
+    ys = temps
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    axis.set_title("Temperature [°C]")
+    axis.set_xlabel("Samples")
+    axis.grid(True)
+    xs = range(numSamples)
+    axis.plot(xs, ys)
+    canvas = FigureCanvas(fig)
+    output = io.BytesIO()
+    canvas.print_png(output)
+    response = make_response(output.getvalue())
+    response.mimetype = 'image/png' 
+    return response
 @app.route('/plot/hum')
 def plot_hum():
 	times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
