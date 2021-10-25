@@ -51,9 +51,9 @@ def maxRowsTable():
     return maxNumberRows
 # define and initialize global variables
 #global numSamples
-numSamples = maxRowsTable()
-if (numSamples > 101):
-    numSamples = 100
+numSamples = 5 #maxRowsTable()
+#if (numSamples > 101):
+#    numSamples = 100
 # main route
 @app.route("/")
 def index():
@@ -72,8 +72,8 @@ def my_form_post():
     #global numSamples, request.form['numSamples']
     numSamples = int (request.form['numSamples'])
     numMaxSamples = maxRowsTable()
-    if (numSamples > numMaxSamples):
-        numSamples = (numMaxSamples-1)
+    #if (numSamples > numMaxSamples):
+        #numSamples = (numMaxSamples-1)
     time, sensor_name, temp, hum, soil_sat = getLastData()
     templateData = {
         'time' : time, 
