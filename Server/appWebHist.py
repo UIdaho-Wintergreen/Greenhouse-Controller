@@ -45,7 +45,7 @@ def maxRowsTable():
     #maxNumberRows = cur.execute("select COUNT(*) from allSensorLog")
     return maxNumberRows
 # define and initialize global variables
-global numSamples
+#global numSamples
 numSamples = maxRowsTable()
 if (numSamples > 101):
     numSamples = 100
@@ -64,7 +64,7 @@ def index():
 	return render_template('index.html', **templateData)
 @app.route('/', methods=['POST'])
 def my_form_post():
-    global numSamples
+    #global numSamples
     numSamples = int (request.form['numSamples'])
     numMaxSamples = maxRowsTable()
     if (numSamples > numMaxSamples):
