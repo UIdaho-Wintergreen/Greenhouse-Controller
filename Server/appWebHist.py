@@ -1,12 +1,30 @@
+# Code/ inspiration taken from the following: 
+# https://github.com/yusufcanb/flask-relay-control/blob/master/src/main.py 
+# Many others
+
+
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+import RPi.GPIO as GPIO
+import json
 import io
+import time
 from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
 import pymysql 
 
 db = pymysql.connect(host="localhost", user="root",passwd="WinterGreen", db="sensor_database")
 #cur = db.cursor() 
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+with open('config_sensors.json') as json_file:
+    data = json.load(json_file) 
+for r in data["relays"]:
+    GPIO.setup(r["pin"], GPIO.OUT) 
+    GPIO.output(r["pin"], GPIO.LOW) 
+    r["state"] = GPIO.input(r["pin"])
+    r["status"] = "OFF"
 
 # Retrieve LAST data from database
 def getLastData():
@@ -58,23 +76,26 @@ if (numSamples > 101):
 # main route
 @app.route("/")
 def index():
-	time, sensor_name, temp, hum, soil_sat = getLastData()
-	templateData = {   
+    time, sensor_name, temp, hum, soil_sat = getLastData()
+    for r in data["relays"]:
+        r["state"] = GPIO.input(r["pin"])
+    templateData = {   
         'time' : time, 
         'sensor_name' : sensor_name,
         'temp' : temp,
         'hum' : hum, 
         'soil_sat' : soil_sat, 
-        'numSamples' : numSamples
+        'numSamples' : numSamples, 
+        'pins': data["relays"]
 	}
-	return render_template('index.html', **templateData)
+    return render_template('index.html', **templateData)
 @app.route('/', methods=['POST'])
 def my_form_post():
     #global numSamples, request.form['numSamples']
     numSamples = int (request.form['numSamples'])
     numMaxSamples = maxRowsTable()
-    #if (numSamples > numMaxSamples):
-        #numSamples = (numMaxSamples-1)
+    if (numSamples > numMaxSamples):
+        numSamples = (numMaxSamples-1)
     time, sensor_name, temp, hum, soil_sat = getLastData()
     templateData = {
         'time' : time, 
@@ -84,6 +105,39 @@ def my_form_post():
         'soil_sat' : soil_sat, 
         'numSamples' : numSamples
 	}
+    return render_template('index.html', **templateData)
+@app.route("/<changePin>/<action>")
+def action(changePin, action):
+    # Convert the pin from the URL into an integer.
+    changePin = int(changePin) 
+    for r in data["relays"]:
+        if r["pin"] == changePin: 
+            deviceName = r["name"]
+            if action == "on":
+                # Set the pin high:
+                GPIO.output(changePin, GPIO.HIGH)
+                # Change the Status
+                r["status"] = 'ON'
+                # Save the status message to be passed into the template:
+                message = "Turned " + deviceName + " on."
+            if action == "off":
+                GPIO.output(changePin, GPIO.LOW)
+                r["status"] = 'OFF'
+                message = "Turned " + deviceName + " off."
+            if action == "toggle":
+                # Read the pin and set it to whatever it isn't (that is, toggle it):
+                GPIO.output(changePin, not GPIO.input(changePin))
+                message = "Toggled " + deviceName + "."
+
+    # For each pin, read the pin state and store it in the pins dictionary:
+    for r in data["relays"]:
+        r["state"] = GPIO.input(r["pin"])
+
+    # Along with the pin dictionary, put the message into the template data dictionary:
+    templateData = {
+        'message': message,
+        'pins': data["relays"]
+    }
     return render_template('index.html', **templateData)
 @app.route('/plot/temp')
 def plot_temp():
@@ -104,37 +158,39 @@ def plot_temp():
     return response
 @app.route('/plot/hum')
 def plot_hum():
-	times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
-	ys = hums
-	fig = Figure()
-	axis = fig.add_subplot(1, 1, 1)
-	axis.set_title("Humidity [%]")
-	axis.set_xlabel("Samples")
-	axis.grid(True)
-	xs = range(numSamples)
-	axis.plot(xs, ys)
-	canvas = FigureCanvas(fig)
-	output = io.BytesIO()
-	canvas.print_png(output)
-	response = make_response(output.getvalue())
-	response.mimetype = 'image/png'
-	return response
+    time.sleep(20) #20 seconds
+    times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
+    ys = hums
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    axis.set_title("Humidity [%]")
+    axis.set_xlabel("Samples")
+    axis.grid(True)
+    xs = range(numSamples)
+    axis.plot(xs, ys)
+    canvas = FigureCanvas(fig)
+    output = io.BytesIO()
+    canvas.print_png(output)
+    response = make_response(output.getvalue())
+    response.mimetype = 'image/png'
+    return response
 @app.route('/plot/soil')
 def plot_soil():
-	times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
-	ys = soil_sats
-	fig = Figure()
-	axis = fig.add_subplot(1, 1, 1)
-	axis.set_title("Soil Saturation [%]")
-	axis.set_xlabel("Samples")
-	axis.grid(True)
-	xs = range(numSamples)
-	axis.plot(xs, ys)
-	canvas = FigureCanvas(fig)
-	output = io.BytesIO()
-	canvas.print_png(output)
-	response = make_response(output.getvalue())
-	response.mimetype = 'image/png'
-	return response
+    time.sleep(40) #40 seconds
+    times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
+    ys = soil_sats
+    fig = Figure()
+    axis = fig.add_subplot(1, 1, 1)
+    axis.set_title("Soil Saturation [%]")
+    axis.set_xlabel("Samples")
+    axis.grid(True)
+    xs = range(numSamples)
+    axis.plot(xs, ys)
+    canvas = FigureCanvas(fig)
+    output = io.BytesIO()
+    canvas.print_png(output)
+    response = make_response(output.getvalue())
+    response.mimetype = 'image/png'
+    return response
 if __name__ == "__main__":
    app.run(host='192.168.43.164', port=80, debug=False)
