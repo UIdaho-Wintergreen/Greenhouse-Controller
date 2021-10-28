@@ -18,7 +18,7 @@ db = pymysql.connect(host="localhost", user="root",passwd="WinterGreen", db="sen
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-with open('config_sensors.json') as json_file:
+with open('/home/pi/Greenhouse-Controller/Server/config_sensors.json') as json_file:
     data = json.load(json_file) 
 for r in data["relays"]:
     GPIO.setup(r["pin"], GPIO.OUT) 
