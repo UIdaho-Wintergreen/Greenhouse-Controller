@@ -9,6 +9,7 @@ import RPi.GPIO as GPIO
 import json
 import io
 import time
+from os import path
 from flask import Flask, render_template, send_file, make_response, request
 app = Flask(__name__)
 import pymysql 
@@ -18,7 +19,9 @@ db = pymysql.connect(host="localhost", user="root",passwd="WinterGreen", db="sen
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
-with open('/home/pi/Greenhouse-Controller/Server/config_sensors.json') as json_file:
+basepath = path.dirname(__file__)
+filepath = path.abspath(path.join(basepath, "..", "config_sensors.json"))
+with open(filepath) as json_file:
     data = json.load(json_file) 
 for r in data["relays"]:
     GPIO.setup(r["pin"], GPIO.OUT) 
