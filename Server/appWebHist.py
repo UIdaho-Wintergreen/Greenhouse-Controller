@@ -72,13 +72,14 @@ def maxRowsTable():
     cur.close()
     return maxNumberRows
 # define and initialize global variables
-#global numSamples
+global numSamples
 numSamples = maxRowsTable()
 if (numSamples > 101):
     numSamples = 100
 # main route
 @app.route("/")
-def index():
+def index(): 
+    global numSamples
     time, sensor_name, temp, hum, soil_sat = getLastData()
     for r in data["relays"]:
         r["state"] = GPIO.input(r["pin"])
@@ -95,7 +96,8 @@ def index():
 @app.route('/', methods=['POST'])
 @app.route("/<changePin>/<action>", methods=['POST'])
 def my_form_post():
-    #global numSamples, request.form['numSamples']
+    #global numSamples, request.form['numSamples'] 
+    global numSamples
     numSamples = int (request.form.get('numSamples'))
     numMaxSamples = maxRowsTable()
     if (numSamples > numMaxSamples):
@@ -107,12 +109,14 @@ def my_form_post():
 	'temp' : temp,
         'hum' : hum, 
         'soil_sat' : soil_sat, 
-        'numSamples' : numSamples
+        'numSamples' : numSamples, 
+        'pins': data["relays"]
 	}
     return render_template('index.html', **templateData)
 @app.route("/<changePin>/<action>")
 def action(changePin, action):
     # Convert the pin from the URL into an integer.
+    global numSamples
     changePin = int(changePin) 
     for r in data["relays"]:
         if r["pin"] == changePin: 
@@ -153,6 +157,7 @@ def action(changePin, action):
     return render_template('index.html', **templateData)
 @app.route('/plot/temp')
 def plot_temp():
+    global numSamples
     times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
     ys = temps
     fig = Figure()
@@ -170,6 +175,7 @@ def plot_temp():
     return response
 @app.route('/plot/hum')
 def plot_hum():
+    global numSamples
     time.sleep(20) #20 seconds
     times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
     ys = hums
@@ -188,6 +194,7 @@ def plot_hum():
     return response
 @app.route('/plot/soil')
 def plot_soil():
+    global numSamples
     time.sleep(40) #40 seconds
     times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
     ys = soil_sats
