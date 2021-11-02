@@ -94,7 +94,7 @@ def index():
 	}
     return render_template('index.html', **templateData)
 @app.route('/', methods=['POST'])
-@app.route("/<changePin>/<action>", methods=['POST'])
+@app.route("/<changePin>/<action>")
 def my_form_post():
     #global numSamples, request.form['numSamples'] 
     global numSamples
@@ -176,7 +176,7 @@ def plot_temp():
 @app.route('/plot/hum')
 def plot_hum():
     global numSamples
-    time.sleep(20) #20 seconds
+    time.sleep(10) #10 seconds
     times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
     ys = hums
     fig = Figure()
@@ -195,7 +195,7 @@ def plot_hum():
 @app.route('/plot/soil')
 def plot_soil():
     global numSamples
-    time.sleep(40) #40 seconds
+    time.sleep(20) #20 seconds
     times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
     ys = soil_sats
     fig = Figure()
