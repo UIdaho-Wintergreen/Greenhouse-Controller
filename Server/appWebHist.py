@@ -95,7 +95,7 @@ def index():
 @app.route('/', methods=['POST'])
 def my_form_post():
     #global numSamples, request.form['numSamples']
-    numSamples = int (request.form['numSamples'])
+    numSamples = int (request.form.get('numSamples'))
     numMaxSamples = maxRowsTable()
     if (numSamples > numMaxSamples):
         numSamples = (numMaxSamples-1)
@@ -103,7 +103,7 @@ def my_form_post():
     templateData = {
         'time' : time, 
         'sensor_name' : sensor_name,
-		'temp' : temp,
+	'temp' : temp,
         'hum' : hum, 
         'soil_sat' : soil_sat, 
         'numSamples' : numSamples
@@ -134,10 +134,18 @@ def action(changePin, action):
 
     # For each pin, read the pin state and store it in the pins dictionary:
     for r in data["relays"]:
-        r["state"] = GPIO.input(r["pin"])
+        r["state"] = GPIO.input(r["pin"]) 
+        
+    time, sensor_name, temp, hum, soil_sat = getLastData()
 
     # Along with the pin dictionary, put the message into the template data dictionary:
     templateData = {
+        'time' : time, 
+        'sensor_name' : sensor_name,
+	'temp' : temp,
+        'hum' : hum, 
+        'soil_sat' : soil_sat, 
+        'numSamples' : numSamples,
         'message': message,
         'pins': data["relays"]
     }
