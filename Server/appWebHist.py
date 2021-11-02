@@ -93,6 +93,7 @@ def index():
 	}
     return render_template('index.html', **templateData)
 @app.route('/', methods=['POST'])
+@app.route("/<changePin>/<action>", methods=['POST'])
 def my_form_post():
     #global numSamples, request.form['numSamples']
     numSamples = int (request.form.get('numSamples'))
