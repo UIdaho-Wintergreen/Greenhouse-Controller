@@ -10,7 +10,7 @@ import json
 import io
 import time
 from os import path
-from flask import Flask, render_template, send_file, make_response, request
+from flask import Flask, render_template, send_file, make_response, request, abort, redirect, url_for
 app = Flask(__name__)
 import pymysql 
 
@@ -78,6 +78,9 @@ if (numSamples > 101):
     numSamples = 100
 # main route
 @app.route("/")
+def home():
+    return redirect(url_for('index'))
+@app.route("/index")
 def index(): 
     global numSamples
     time, sensor_name, temp, hum, soil_sat = getLastData()
@@ -93,8 +96,7 @@ def index():
         'pins': data["relays"]
 	}
     return render_template('index.html', **templateData)
-@app.route('/', methods=['POST'])
-@app.route("/<changePin>/<action>")
+@app.route("/index", methods=['POST'])
 def my_form_post():
     #global numSamples, request.form['numSamples'] 
     global numSamples
@@ -154,7 +156,9 @@ def action(changePin, action):
         'message': message,
         'pins': data["relays"]
     }
-    return render_template('index.html', **templateData)
+    #return render_template('index.html', **templateData) 
+    return redirect(url_for('index'))
+
 @app.route('/plot/temp')
 def plot_temp():
     global numSamples
