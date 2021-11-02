@@ -29,8 +29,8 @@
               <td class="{% if pin.state == true %} active {%else%} not-active {% endif %}"><strong> {{ pin.status | string }} </strong></td>
               <td>
                 {% if pin.state == true %}
-                <a class="button off" href="/{{pin}}/off"> Turn Off</a> {% else %}
-                <a class="button" href="/{{pin}}/on">Turn On</a> {% endif %}
+                <a class="button off" href="/{{pin.pin}}/off"> Turn Off</a> {% else %}
+                <a class="button" href="/{{pin.pin}}/on">Turn On</a> {% endif %}
               </td>
               {% endfor %}
             </tr>
