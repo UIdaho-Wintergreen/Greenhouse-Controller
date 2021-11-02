@@ -8,9 +8,34 @@
 	<h2> Latest data for sensor {{ sensor_name }}: </h2>
 	<h3> TEMPERATURE =  {{ temp  }} oC</h3>
 	<h3> HUMIDITY = {{ hum  }} %</h3> 
-   <h3> SOIL SATURATION = {{ soil_sat  }} %</h3>
+   	<h3> SOIL SATURATION = {{ soil_sat  }} %</h3>
 	<hr>	
 	<h3> Last Sensors Reading: {{ time }} ==> <a href="/"class="button">REFRESH</a></h3>	
+	<hr>
+ 	<table style="margin-top: 50px;">
+          <thead>
+            <tr>
+              <th> ID </th>
+              <th> Name </th>
+              <th> Status </th>
+              <th> Action </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for pin in pins %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>{{ pin.name }}</td>
+              <td class="{% if pin.state == true %} active {%else%} not-active {% endif %}"><strong> {{ pin.status | string }} </strong></td>
+              <td>
+                {% if pin.state == true %}
+                <a class="button off" href="/{{pin}}/off"> Turn Off</a> {% else %}
+                <a class="button" href="/{{pin}}/on">Turn On</a> {% endif %}
+              </td>
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
 	<hr>
 	<h3> HISTORICAL DATA </h3>
 	<p> Enter number of samples to retrieve:
