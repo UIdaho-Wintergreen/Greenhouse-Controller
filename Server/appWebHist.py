@@ -216,4 +216,5 @@ def plot_soil():
     response.mimetype = 'image/png'
     return response
 if __name__ == "__main__":
-   app.run(host='192.168.43.164', port=80, debug=False)
+    #app.run(host='192.168.43.164', port=80, debug=False)
+    app.run()
