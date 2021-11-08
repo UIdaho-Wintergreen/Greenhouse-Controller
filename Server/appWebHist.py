@@ -82,7 +82,7 @@ def home():
     return redirect(url_for('index'))
 @app.route("/index")
 def index(): 
-    global numSamples
+    #global numSamples
     time, sensor_name, temp, hum, soil_sat = getLastData()
     for r in data["relays"]:
         r["state"] = GPIO.input(r["pin"])
@@ -108,7 +108,7 @@ def my_form_post():
     templateData = {
         'time' : time, 
         'sensor_name' : sensor_name,
-	'temp' : temp,
+        'temp' : temp,
         'hum' : hum, 
         'soil_sat' : soil_sat, 
         'numSamples' : numSamples, 
@@ -118,7 +118,7 @@ def my_form_post():
 @app.route("/<changePin>/<action>")
 def action(changePin, action):
     # Convert the pin from the URL into an integer.
-    global numSamples
+    #global numSamples
     changePin = int(changePin) 
     for r in data["relays"]:
         if r["pin"] == changePin: 
@@ -143,25 +143,25 @@ def action(changePin, action):
     for r in data["relays"]:
         r["state"] = GPIO.input(r["pin"]) 
         
-    time, sensor_name, temp, hum, soil_sat = getLastData()
+    #time, sensor_name, temp, hum, soil_sat = getLastData()
 
     # Along with the pin dictionary, put the message into the template data dictionary:
-    templateData = {
-        'time' : time, 
-        'sensor_name' : sensor_name,
-	'temp' : temp,
-        'hum' : hum, 
-        'soil_sat' : soil_sat, 
-        'numSamples' : numSamples,
-        'message': message,
-        'pins': data["relays"]
-    }
+    #templateData = {
+    #    'time' : time, 
+    #    'sensor_name' : sensor_name,
+    #    'temp' : temp,
+    #    'hum' : hum, 
+    #    'soil_sat' : soil_sat, 
+    #    'numSamples' : numSamples,
+    #    'message': message,
+    #    'pins': data["relays"]
+    #}
     #return render_template('index.html', **templateData) 
     return redirect(url_for('index'))
 
 @app.route('/plot/temp')
 def plot_temp():
-    global numSamples
+    #global numSamples
     times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
     ys = temps
     fig = Figure()
@@ -179,8 +179,8 @@ def plot_temp():
     return response
 @app.route('/plot/hum')
 def plot_hum():
-    global numSamples
-    time.sleep(10) #10 seconds
+    #global numSamples
+    time.sleep(6) #6 seconds
     times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
     ys = hums
     fig = Figure()
@@ -198,8 +198,8 @@ def plot_hum():
     return response
 @app.route('/plot/soil')
 def plot_soil():
-    global numSamples
-    time.sleep(20) #20 seconds
+    #global numSamples
+    time.sleep(12) #12 seconds
     times, sensor_names, temps, hums, soil_sats = getHistData(numSamples)
     ys = soil_sats
     fig = Figure()
