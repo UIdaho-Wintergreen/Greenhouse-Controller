@@ -172,7 +172,7 @@ while True:
             db.rollback()
             print("Failed writing to database")
  
-        rows = [datetimeWrite, name, t, h, s]
+        rows = [[str(datetimeWrite)], [str(name)], [str(t)], [str(h)], [str(s)]]
         service.spreadsheets().values().append(
             spreadsheetId=spreadsheet_id,
             range="Sheet1!A:Z",
