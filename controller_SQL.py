@@ -23,6 +23,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
+from oauth2client.client import GoogleCredentials 
 
 with open('config_sensors.json') as json_file:
     data = json.load(json_file) 
@@ -72,22 +73,6 @@ for e in data["sms_details"]:
 
 smtp = "smtp.gmail.com" 
 port = 587
-
-def credentials_check(json_file):
-    if os.path.exists(json_file):
-        creds = Credentials.from_authorized_user_file(json_file, SCOPES)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                json_file, SCOPES)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open(json_file, 'w') as token:
-            token.write(creds.to_json())
-    return creds
 
 # Takes in number to compare to upper-lower threshold, sound alarm when pass out of bounds limit.
 def check_threshold(num, up_thresh, low_thresh, oob_lim, key, key_name, spec):
@@ -169,7 +154,7 @@ while True:
         alarm_s[key_name] = check_threshold(soil_sat, s["upper_threshold"], s["lower_threshold"], s["alarm_when_OOB"], alarm_s[key_name], key_name, "soil saturation")
     
     # Access Google sheet.
-    credentials = credentials_check("client_key.json") #GoogleCredentials.get_application_default()
+    credentials = GoogleCredentials.get_application_default()
     service = build('sheets', 'v4', credentials=credentials)
     
     for h, t, s in zip(humidityList, tempList, soilList):
