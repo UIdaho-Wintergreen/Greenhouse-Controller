@@ -172,13 +172,13 @@ while True:
             db.rollback()
             print("Failed writing to database")
  
-        rows = [[str(datetimeWrite)], [str(name)], [str(t)], [str(h)], [str(s)]]
+        col = [[str(datetimeWrite)], [str(name)], [str(t)], [str(h)], [str(s)]]
         service.spreadsheets().values().append(
             spreadsheetId=spreadsheet_id,
             range="Sheet1!A:Z",
             body={
-                "majorDimension": "ROWS",
-                "values": rows
+                "majorDimension": "COLUMNS",
+                "values": col
             },
             valueInputOption="USER_ENTERED"
         ).execute()
