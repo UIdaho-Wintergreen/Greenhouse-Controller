@@ -15,9 +15,6 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import shelve
-#import sys
-#import gspread
-#from oauth2client.client import SignedJwAssertionCredentials
 import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -78,7 +75,7 @@ port = 587
 def check_threshold(num, up_thresh, low_thresh, oob_lim, key, key_name, spec):
     if ((up_thresh<num) or (low_thresh>temp)):
         if (int(key or 0)>=oob_lim):
-            send_alarm("Your sensor "+str(key_name)+"'s "+spec+" has been out of bounds beyond the limit.")
+            send_alarm("Your sensor "+str(key_name)+"'s "+spec+" has been out of bounds beyond the limit !!")
         else:
             return int(key or 0)+1
     else: #Reset if solved.
@@ -186,6 +183,6 @@ while True:
     db.close() 
     alarm_s.close()
     
-    send_alarm("Sensor data has been collected at "+datetimeWrite)
+    send_alarm("Sensor data has been collected at "+datetimeWrite+" !!")
     
     break
