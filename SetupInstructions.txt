@@ -1,3 +1,7 @@
+To the teams that will have to improve this project, my only excuse was that I had a busy schedule when coding this. 
+Sorry.
+___________________________________________________
+
 The links below will be useful in setting up the various libraries and sensors.
 
 For overall setup for CircuitPython libraries (Blinka):
