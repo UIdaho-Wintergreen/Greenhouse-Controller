@@ -1,7 +1,14 @@
 # Greenhouse-Controller
-A UIdaho senior design project, 2021.
+A University of Idaho senior design project, 2021. <br>
+This is more like proof of concept, and this should be optimized and improved by future teams. <br>
+The code in this project should be used with the Wintergreen hardware setup, but may be flexible with other systems. 
 
-Instructions: 
+## Usage and Description
+The main usage of this code is to be able to use multiple sensors and relays to monitor and change conditions in a greenhouse setting. <br>
+It utilizes MySQL for internal information storage, Google Sheets for external information storage, and SMS to alert users. 
+
+## Instructions 
+See SetupInstructions.txt. 
 1. Install necessary libraries and branch code.
 2. Edit JSON file config_sensors.json. 
 
