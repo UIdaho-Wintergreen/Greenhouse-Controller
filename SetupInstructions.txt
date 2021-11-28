@@ -1,7 +1,18 @@
 To the teams that will have to improve this project, my only excuse was that I had a busy schedule when coding this. 
 Sorry.
-___________________________________________________
+___________________________________________________ 
 
+Please note that this code utilizes a MySQL database and Google Spreadsheets implementation to store data, and uses Google email to send SMS alarms as well.
+Fill in your information in the JSON file (some are filled in already). 
+
+If your Google account has two factor authentication, you will need to use an app password to send SMS alerts. 
+Follow the steps in the link below to do so and fill in the JSON file with the correct information.
+https://support.google.com/accounts/answer/185833?hl=en 
+
+To enable editing to Google Sheets, follow the link below (omitting the Python part).
+https://www.analyticsvidhya.com/blog/2020/07/read-and-update-google-spreadsheets-with-python/ 
+Be sure to create the API key and store it in inside the Greenhouse-Controller directory, and store additional information in the JSON file. 
+___________________________________________________ 
 The links below will be useful in setting up the various libraries and sensors.
 
 For overall setup for CircuitPython libraries (Blinka):
