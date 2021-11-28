@@ -14,7 +14,11 @@
 	"relays":[
 		{
 			"name":"relay 1",
-			"pin":21
+			"pin":11
+		}, 
+		{
+			"name":"relay 2",
+			"pin":13
 		}
 	],
 	"soil_sensors":[
@@ -32,7 +36,8 @@
 			"email_password":"",
 			"phone_number":"",
 			"email_provider":"gmail",
-			"phone_carrier":"tmobile"
+			"phone_carrier":"tmobile", 
+			"spreadsheet_id":""
 		}
 	]
 }
