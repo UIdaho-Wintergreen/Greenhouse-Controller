@@ -13,7 +13,7 @@ To enable editing to Google Sheets, follow the link below (omitting the Python p
 https://www.analyticsvidhya.com/blog/2020/07/read-and-update-google-spreadsheets-with-python/ 
 Be sure to create the API key and store it in inside the Greenhouse-Controller directory, and store additional information in the JSON file. 
 
-Edit the .conf file in the Server directory, then move it over to /etc/apache2/sites-available/.
+Edit the .conf file in the Server directory to contain your pi's IP address, then move it over to /etc/apache2/sites-available/.
 ___________________________________________________ 
 The links below will be useful in setting up the various libraries and sensors.
 
