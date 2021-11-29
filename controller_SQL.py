@@ -29,7 +29,6 @@ alarm_s = shelve.open("alarm_tracking",  flag="c", writeback=True)
  
 SHEETS_READ_WRITE_SCOPE = 'https://www.googleapis.com/auth/spreadsheets'
 SCOPES = [SHEETS_READ_WRITE_SCOPE] 
-spreadsheet_id = '1CL3eMb8WPgojFByeiETqKTKfukaqz4Y2sxzOUetb4_s'
 
 # For temp sensor.
 sensor = Adafruit_DHT.DHT11
@@ -49,10 +48,11 @@ db = pymysql.connect(host="localhost", user="root",passwd="WinterGreen", db="sen
 cur = db.cursor()
     
 # For SMS alarm
-for e in data["sms_details"]:
+for e in data["credentials"]:
     email = e["email_address"]
     pas = e["email_password"]
-    
+    spreadsheet_id = e["spreadsheet_id"]
+
     if (e["phone_carrier"]).lower()=="at&t":
         gateway="@txt.att.net"
     elif (e["phone_carrier"]).lower()=="sprint":
