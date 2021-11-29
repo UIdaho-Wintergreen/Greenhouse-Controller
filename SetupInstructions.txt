@@ -15,7 +15,9 @@ Be sure to create the API key and store it in inside the Greenhouse-Controller d
 
 Edit the .conf file in the Server directory to contain your pi's IP address, then move it over to /etc/apache2/sites-available/.
 ___________________________________________________ 
+
 The links below will be useful in setting up the various libraries and sensors.
+These are also resources I have referenced to create this project. 
 
 For overall setup for CircuitPython libraries (Blinka):
 https://learn.adafruit.com/circuitpython-on-raspberrypi-linux/installing-circuitpython-on-raspberry-pi 
@@ -29,7 +31,10 @@ https://wingoodharry.wordpress.com/2015/01/05/raspberry-pi-temperature-sensor-we
 
 For using a python MySQL connector:
 https://www.a2hosting.com/kb/developer-corner/mysql/connecting-to-mysql-using-python
-I suggest sudo apt-get install python3-pymysql
+I suggest sudo apt-get install python3-pymysql 
+
+More information on the connection between WSGI, Flask: 
+https://www.codementor.io/@abhishake/minimal-apache-configuration-for-deploying-a-flask-app-ubuntu-18-04-phu50a7ft
 
 In the case that the pi screams at you that you are missing a library, try importing whatever is in the code.
 
@@ -42,8 +47,9 @@ Basic instructions after downloading code and libraries:
     - "type": Currently only supports DHT11.
   - "relays": This section is for relay information.
   - "soil_sensors": This section is for soil sensors.
-    - Prior to setting up everything, calibrate soil sensor to get saturation levels.  
-  - "sms_details": This section is for activating alarms.
+    - Prior to setting up everything, calibrate soil sensor to get saturation levels. 
+      -Run soil_sensor_calib.py from the SensorTests directory to do this.
+  - "credentials": This section is for information needed to activate alarms, use Google Spreadsheets.
 
 ___________________________________________________
 
