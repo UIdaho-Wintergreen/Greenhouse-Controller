@@ -14,11 +14,11 @@
 	"relays":[
 		{
 			"name":"relay 1",
-			"pin":11
+			"pin":17
 		}, 
 		{
 			"name":"relay 2",
-			"pin":13
+			"pin":27
 		}
 	],
 	"soil_sensors":[
@@ -30,14 +30,14 @@
 			"alarm_when_OOB":2
 		}
 	],
-	"sms_details":[
+	"credentials":[
 		{
 			"email_address":"",
 			"email_password":"",
 			"phone_number":"",
 			"email_provider":"gmail",
 			"phone_carrier":"tmobile", 
-			"spreadsheet_id":""
+			"spreadsheet_id":"1CL3eMb8WPgojFByeiETqKTKfukaqz4Y2sxzOUetb4_s"
 		}
 	]
 }
