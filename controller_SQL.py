@@ -21,9 +21,17 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from oauth2client.client import GoogleCredentials 
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
 
 with open('config_sensors.json') as json_file:
     data = json.load(json_file) 
+    
+for r in data["relays"]:
+    GPIO.setup(r["pin"], GPIO.OUT) 
+    GPIO.output(r["pin"], GPIO.LOW) 
     
 alarm_s = shelve.open("alarm_tracking",  flag="c", writeback=True)
  
@@ -72,13 +80,16 @@ smtp = "smtp.gmail.com"
 port = 587
 
 # Takes in number to compare to upper-lower threshold, sound alarm when pass out of bounds limit.
-def check_threshold(num, up_thresh, low_thresh, oob_lim, key, key_name, spec):
+def check_threshold(num, up_thresh, low_thresh, oob_lim, key, key_name, spec, relay_pin):
     if ((up_thresh<num) or (low_thresh>temp)):
         if (int(key or 0)>=oob_lim):
-            send_alarm("Your sensor "+str(key_name)+"'s "+spec+" has been out of bounds beyond the limit !!")
+            send_alarm("Your sensor "+str(key_name)+"'s "+spec+" has been out of bounds beyond the limit. Now turning on relay. !!")
+            GPIO.output(relay_pin, GPIO.HIGH)
         else:
             return int(key or 0)+1
     else: #Reset if solved.
+	send_alarm("Your sensor "+str(key_name)+"'s "+spec+" is back in bounds. Now turning off relay. !!")
+        GPIO.output(relay_pin, GPIO.LOW)
         return 0
 
 def percent_translation(raw_val, zero_sat, full_sat):
@@ -112,7 +123,7 @@ while True:
     humidityList=[]
     tempList=[]
     soilList=[]
-    name = "batch1"
+    #name = "batch1"
     
     # Get the date, time.
     datetimeWrite = (time.strftime("%Y-%m-%d ") + time.strftime("%H:%M:%S"))
@@ -134,8 +145,8 @@ while True:
         tempList.append(temp) 
         
         # Check temp threshold.
-        alarm_s[key_name]["temp"] = check_threshold(temp, t["temp_upper_threshold"], t["temp_lower_threshold"], t["alarm_when_OOB"], alarm_s[key_name]["temp"], key_name, "temperature")
-        alarm_s[key_name]["humid"] = check_threshold(humidity, t["humid_upper_threshold"], t["humid_lower_threshold"], t["alarm_when_OOB"], alarm_s[key_name]["humid"], key_name, "humidity")
+        alarm_s[key_name]["temp"] = check_threshold(temp, t["temp_upper_threshold"], t["temp_lower_threshold"], t["alarm_when_OOB"], alarm_s[key_name]["temp"], key_name, "temperature", t["temp_relay_pin"])
+        alarm_s[key_name]["humid"] = check_threshold(humidity, t["humid_upper_threshold"], t["humid_lower_threshold"], t["alarm_when_OOB"], alarm_s[key_name]["humid"], key_name, "humidity", t["humid_relay_pin"])
         
     # Get soil sat sensors.            
     for i, s in enumerate(data["soil_sensors"]):
@@ -148,12 +159,14 @@ while True:
         L = "SOIL SENSOR: " + "{:>5}%\t{:>5.3f}".format(soil_sat, chan.voltage)
         print(L)
         soilList.append(soil_sat)
-        alarm_s[key_name] = check_threshold(soil_sat, s["upper_threshold"], s["lower_threshold"], s["alarm_when_OOB"], alarm_s[key_name], key_name, "soil saturation")
+        alarm_s[key_name] = check_threshold(soil_sat, s["upper_threshold"], s["lower_threshold"], s["alarm_when_OOB"], alarm_s[key_name], key_name, "soil saturation", s["soil_relay_pin"])
     
     # Access Google sheet.
     credentials = GoogleCredentials.get_application_default()
     service = build('sheets', 'v4', credentials=credentials)
     
+    name_iter=1
+    name="batch"+str(name_iter)
     for h, t, s in zip(humidityList, tempList, soilList):
         sql = ("""INSERT INTO allSensorLog (datetime, sensornum, temperature, humidity, soilsaturation) VALUES (%s,%s,%s,%s,%s)""",(datetimeWrite, name, t, h, s))
         try:
@@ -178,11 +191,13 @@ while True:
                 "values": col
             },
             valueInputOption="USER_ENTERED"
-        ).execute()
+        ).execute() 
+        name_iter=name_iter+1
+        name="batch"+str(name_iter)
     cur.close()
     db.close() 
     alarm_s.close()
     
-    send_alarm("Sensor data has been collected at "+datetimeWrite+" !!")
+    send_alarm("Sensor data has been collected at "+datetimeWrite+". !!")
     
     break
