@@ -16,13 +16,13 @@ See SetupInstructions.txt for additional information.
 2. Edit JSON file config_sensors.json. 
 
 To clone the code:
-''' 
+```
 git clone https://github.com/UIdaho-Wintergreen/Greenhouse-Controller.git
-'''
+```
 
 Recommended libraries to install:
 
-''' 
+```
 sudo apt-get install rpi.gpio
 sudo pip3 install --upgrade adafruit-python-shell
 wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blinka.py 
@@ -33,8 +33,7 @@ sudo apt-get install libapache2-mod-wsgi-py3 python-dev
 sudo apt-get install python3-pymysql  
 pip3 install gspread
 pip3 install --upgrade google-api-python-client oauth2client 
-
-'''
+```
 
 Directory explanations: 
 
