@@ -8,7 +8,8 @@
 			"humid_upper_threshold":32,
 			"humid_lower_threshold":0,
 			"alarm_when_OOB":2, 
-			"relay_pin":27
+			"temp_relay_pin":27, 
+			"humid_relay_pin":17
 		}
 	], 
 	"relays":[
