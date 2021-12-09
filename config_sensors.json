@@ -8,16 +8,16 @@
 			"humid_upper_threshold":32,
 			"humid_lower_threshold":0,
 			"alarm_when_OOB":2, 
-			"relay_pin":21
+			"relay_pin":27
 		}
 	], 
 	"relays":[
 		{
-			"name":"relay 1",
+			"name":"right relay",
 			"pin":17
 		}, 
 		{
-			"name":"relay 2",
+			"name":"left relay",
 			"pin":27
 		}
 	],
@@ -27,7 +27,8 @@
 			"zero_saturation":61312,
 			"upper_threshold":50,
 			"lower_threshold":22,
-			"alarm_when_OOB":2
+			"alarm_when_OOB":2, 
+			"relay_pin":27
 		}
 	],
 	"credentials":[
