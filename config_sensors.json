@@ -29,7 +29,7 @@
 			"upper_threshold":50,
 			"lower_threshold":22,
 			"alarm_when_OOB":2, 
-			"relay_pin":27
+			"soil_relay_pin":27
 		}
 	],
 	"credentials":[
