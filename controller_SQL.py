@@ -88,7 +88,7 @@ def check_threshold(num, up_thresh, low_thresh, oob_lim, key, key_name, spec, re
         else:
             return int(key or 0)+1
     else: #Reset if solved.
-        #send_alarm("Your sensor "+str(key_name)+"'s "+spec+" is back in bounds. Now turning off relay. !!")
+        send_alarm("Your sensor "+str(key_name)+"'s "+spec+" is back in bounds. Now turning off relay. !!")
         GPIO.output(relay_pin, GPIO.LOW)
         return 0
 
@@ -198,6 +198,6 @@ while True:
     db.close() 
     alarm_s.close()
     
-    send_alarm("Sensor data has been collected. !!")
+    send_alarm("Sensor data has been collected at "+datetimeWrite+". !!")
     
     break
