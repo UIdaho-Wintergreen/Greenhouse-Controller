@@ -11,7 +11,7 @@ It utilizes MySQL for internal information storage, Google Sheets for external i
 
 ## Instructions 
 -------------------------
-See SetupInstructions.txt for additional information. 
+See SetupInstructions.txt for additional information/ troubleshooting tips. 
 1. Install necessary libraries and clone code.
 2. Edit JSON file config_sensors.json. 
 
@@ -35,13 +35,24 @@ pip3 install gspread
 pip3 install --upgrade google-api-python-client oauth2client 
 ```
 
+Recommended configuration to set up MySQL database after entering in with sudo mysql –u –p : 
+```
+CREATE DATABASE sensor_database;
+USE sensor_database; 
+CREATE TABLE allSensorLog(datetime DATETIME, sensornum CHAR, temperature FLOAT, humidity FLOAT, soilsaturation FLOAT);
+``` 
+If database or table name is changed, please change the code to match it in controller_SQL.py. 
+Make sure to update the password too. 
+
+Recommended crontab configuration (enter after crontab -e): 
+```
+*/5 * * * * export GOOGLE_APPLICATION_CREDENTIALS = "(insert path to client_key.json here)"; cd (path to controller_SQL.py directory) && ./controller_SQL.py
+```
+
 Directory explanations: 
 
 The SensorTests directory contains scripts for individual sensors and functionality.
-All of it is combined in controller_SQL.py, controller_manual.py (for sensors, relays at least).
-
-Despite what it seems, controller_manual.py is used for combined testing of sensors and relays.
-It is not the most recent, nor will it be the final version used.
+All of it is combined in controller_SQL.py, which will be the main executable code.
 
 Right now, the most "complete" (but in-progress) version is controller_SQL.py, which involves the use of a database.
 To set up the database, the current settings are...
