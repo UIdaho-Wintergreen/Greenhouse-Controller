@@ -34,6 +34,8 @@ sudo apt-get install python3-pymysql
 pip3 install gspread
 pip3 install --upgrade google-api-python-client oauth2client 
 ```
+To get full saturation/ zero saturation values for soil sensor in config_sensors.json, use code specific to your sensor type. 
+For capacitive soil moisture sensors v1.2, calibration code to get those values is in SensorTests/soil_sensor_calib.py.
 
 Recommended configuration to set up MySQL database after entering in with sudo mysql –u –p : 
 ```
