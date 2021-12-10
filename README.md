@@ -1,6 +1,6 @@
 # Greenhouse-Controller
 -----------------------
-A University of Idaho senior design project, 2021. <br>
+A University of Idaho senior design project, 2021. No license, just an open source project utilizing other resources. <br>
 This is more like proof of concept, and this should be optimized and improved by future teams. <br>
 The code in this project should be used with the Wintergreen hardware setup, but may be flexible with other systems. 
 
@@ -44,7 +44,7 @@ CREATE TABLE allSensorLog(datetime DATETIME, sensornum CHAR, temperature FLOAT, 
 If database or table name is changed, please change the code to match it in controller_SQL.py. 
 Make sure to update the password too. 
 
-Recommended crontab configuration (enter after crontab -e): 
+Recommended crontab configuration to run controller_SQL.py (enter after crontab -e): 
 ```
 */5 * * * * export GOOGLE_APPLICATION_CREDENTIALS = "(insert path to client_key.json here)"; cd (path to controller_SQL.py directory) && ./controller_SQL.py
 ```
