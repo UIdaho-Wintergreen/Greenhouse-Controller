@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+
+# Code/ inspiration is taken from the following resources: 
+# [1] https://wingoodharry.wordpress.com/2015/01/05/raspberry-pi-temperature-sensor-web-server-part-2-setting-up-and-writing-to-a-mysql-database/ 
+#	-Helped with making the base of the MySQL transfer. 
+# Thank you. I don't own any of the code from above.
+
 import json
 import time
 import datetime
