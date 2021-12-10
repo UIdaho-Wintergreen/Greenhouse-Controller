@@ -1,7 +1,9 @@
 # Code/ inspiration taken from the following: 
-# https://github.com/yusufcanb/flask-relay-control/blob/master/src/main.py 
-# Many others
-
+# [1] https://projects-raspberry.com/from-data-to-graph-a-web-journey-with-flask-and-sqlite/
+# 	-Tutorial was followed to create main webpage, graphs. 
+# [2] https://github.com/yusufcanb/flask-relay-control/blob/master/src/main.py 
+#	-Relay code is used to efficiently toggle between relays. 
+# Thank you. I don't own any of the code from the above resources.
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
